@@ -1,4 +1,4 @@
-package br.com.jornada.milhas.domain.dto;
+package br.com.jornada.milhas.domain.depoimentos;
 
 import jakarta.validation.constraints.NotBlank;
 

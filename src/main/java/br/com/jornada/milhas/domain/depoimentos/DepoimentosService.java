@@ -1,10 +1,5 @@
-package br.com.jornada.milhas.domain.service;
+package br.com.jornada.milhas.domain.depoimentos;
 
-import br.com.jornada.milhas.domain.dto.DepoimentosAtualizacaoDTO;
-import br.com.jornada.milhas.domain.dto.DepoimentosDTO;
-import br.com.jornada.milhas.domain.dto.DepoimentosDetalhesDTO;
-import br.com.jornada.milhas.domain.model.Depoimentos;
-import br.com.jornada.milhas.repository.DepoimentosRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,22 +16,22 @@ public class DepoimentosService {
     @Autowired
     private DepoimentosRepository repository;
 
-    public ResponseEntity<DepoimentosDetalhesDTO> guardarDepoimento(@Valid DepoimentosDTO depoimentosDTO,
+    public ResponseEntity<DepoimentosDetalhesDTO> guardarDepoimento(@Valid DepoimentosCadastrarDTO depoimentosCadastrarDTO,
                                                                     UriComponentsBuilder uriBuilder) {
-        Depoimentos depoimentos = new Depoimentos(depoimentosDTO);
+        Depoimentos depoimentos = new Depoimentos(depoimentosCadastrarDTO);
         repository.save(depoimentos);
 
         var uri = uriBuilder.path("/depoimentos/{id}").buildAndExpand(depoimentos.getId()).toUri();
         return ResponseEntity.created(uri).body(new DepoimentosDetalhesDTO(depoimentos));
     }
 
-    public ResponseEntity<Page<DepoimentosDTO>> mostrarDepoimento(Pageable paginacao) {
-        Page<DepoimentosDTO> page = converteDados(paginacao);
+    public ResponseEntity<Page<DepoimentosCadastrarDTO>> mostrarDepoimento(Pageable paginacao) {
+        Page<DepoimentosCadastrarDTO> page = converteDados(paginacao);
         return ResponseEntity.ok(page);
     }
 
-    public Page<DepoimentosDTO> converteDados(Pageable paginacao) {
-        return repository.findAllByAtivoTrue(paginacao).map(DepoimentosDTO::new);
+    public Page<DepoimentosCadastrarDTO> converteDados(Pageable paginacao) {
+        return repository.findAllByAtivoTrue(paginacao).map(DepoimentosCadastrarDTO::new);
     }
 
     public ResponseEntity<DepoimentosDetalhesDTO> atualizarDados(@Valid DepoimentosAtualizacaoDTO dados) {
@@ -46,16 +41,16 @@ public class DepoimentosService {
         return ResponseEntity.ok(new DepoimentosDetalhesDTO(depoimento));
     }
 
-    public ResponseEntity<Void> excluirDados(Long id) {
+    public ResponseEntity<?> excluirDados(Long id) {
         var depoimentos = repository.getReferenceById(id);
         depoimentos.excluir();
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<List<DepoimentosDTO>> buscarTresAleatorios() {
-        var depoimentos =repository.buscarTresAleatorios()
+    public ResponseEntity<List<DepoimentosCadastrarDTO>> buscarTresAleatorios() {
+        var depoimentos = repository.buscarTresAleatorios()
                 .stream()
-                .map(depoimento -> new DepoimentosDTO(depoimento))
+                .map(DepoimentosCadastrarDTO::new)
                 .toList();
         return ResponseEntity.ok(depoimentos);
     }

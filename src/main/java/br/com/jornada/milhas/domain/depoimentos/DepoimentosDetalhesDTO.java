@@ -1,6 +1,4 @@
-package br.com.jornada.milhas.domain.dto;
-
-import br.com.jornada.milhas.domain.model.Depoimentos;
+package br.com.jornada.milhas.domain.depoimentos;
 
 public record DepoimentosDetalhesDTO(String depoimento,
                                      String nome) {

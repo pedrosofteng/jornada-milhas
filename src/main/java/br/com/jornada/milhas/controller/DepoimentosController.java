@@ -1,11 +1,10 @@
 package br.com.jornada.milhas.controller;
 
-import br.com.jornada.milhas.domain.dto.DepoimentosAtualizacaoDTO;
-import br.com.jornada.milhas.domain.dto.DepoimentosDTO;
-import br.com.jornada.milhas.domain.dto.DepoimentosDetalhesDTO;
-import br.com.jornada.milhas.domain.model.Depoimentos;
-import br.com.jornada.milhas.domain.service.DepoimentosService;
-import br.com.jornada.milhas.repository.DepoimentosRepository;
+import br.com.jornada.milhas.domain.depoimentos.DepoimentosAtualizacaoDTO;
+import br.com.jornada.milhas.domain.depoimentos.DepoimentosCadastrarDTO;
+import br.com.jornada.milhas.domain.depoimentos.DepoimentosDetalhesDTO;
+import br.com.jornada.milhas.domain.depoimentos.DepoimentosService;
+import br.com.jornada.milhas.domain.depoimentos.DepoimentosRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,16 @@ public class DepoimentosController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<DepoimentosDetalhesDTO> postarDepoimento(@RequestBody @Valid DepoimentosDTO depoimentosDTO,
-                                                                   UriComponentsBuilder uriBuilder){
-        return depoimentosService.guardarDepoimento(depoimentosDTO, uriBuilder);
+    public ResponseEntity<DepoimentosDetalhesDTO> postarDepoimento(
+            @RequestBody
+            @Valid
+            DepoimentosCadastrarDTO depoimentosCadastrarDTO,
+            UriComponentsBuilder uriBuilder){
+        return depoimentosService.guardarDepoimento(depoimentosCadastrarDTO, uriBuilder);
     }
 
     @GetMapping
-    public ResponseEntity<Page<DepoimentosDTO>> mostrarDepoimentos
+    public ResponseEntity<Page<DepoimentosCadastrarDTO>> mostrarDepoimentos
             (@PageableDefault(size = 10, page = 0, sort = {"nome"}) Pageable pageable){
         return depoimentosService.mostrarDepoimento(pageable);
     }
@@ -49,12 +51,12 @@ public class DepoimentosController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
         return depoimentosService.excluirDados(id);
     }
 
     @GetMapping("/home")
-    public ResponseEntity<List<DepoimentosDTO>> depoimentosSorteados() {
+    public ResponseEntity<List<DepoimentosCadastrarDTO>> depoimentosSorteados() {
         return depoimentosService.buscarTresAleatorios();
     }
 

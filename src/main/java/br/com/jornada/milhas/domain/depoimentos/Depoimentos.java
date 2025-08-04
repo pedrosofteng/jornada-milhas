@@ -1,7 +1,5 @@
-package br.com.jornada.milhas.domain.model;
+package br.com.jornada.milhas.domain.depoimentos;
 
-import br.com.jornada.milhas.domain.dto.DepoimentosAtualizacaoDTO;
-import br.com.jornada.milhas.domain.dto.DepoimentosDTO;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.EqualsAndHashCode;
@@ -26,10 +24,10 @@ public class Depoimentos {
     public Depoimentos(){
     }
 
-    public Depoimentos(DepoimentosDTO depoimentosDTO){
-        this.fotoUrl = depoimentosDTO.fotoUrl();
-        this.depoimento = depoimentosDTO.depoimento();
-        this.nome = depoimentosDTO.nome();
+    public Depoimentos(DepoimentosCadastrarDTO depoimentosCadastrarDTO){
+        this.fotoUrl = depoimentosCadastrarDTO.fotoUrl();
+        this.depoimento = depoimentosCadastrarDTO.depoimento();
+        this.nome = depoimentosCadastrarDTO.nome();
     }
 
     public void atualizarInformacoes(@Valid DepoimentosAtualizacaoDTO dados) {

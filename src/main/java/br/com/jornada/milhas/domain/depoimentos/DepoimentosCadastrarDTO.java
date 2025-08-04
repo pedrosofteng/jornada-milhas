@@ -1,9 +1,8 @@
-package br.com.jornada.milhas.domain.dto;
+package br.com.jornada.milhas.domain.depoimentos;
 
-import br.com.jornada.milhas.domain.model.Depoimentos;
 import jakarta.validation.constraints.NotBlank;
 
-public record DepoimentosDTO(
+public record DepoimentosCadastrarDTO(
         @NotBlank
         String fotoUrl,
         @NotBlank
@@ -11,7 +10,7 @@ public record DepoimentosDTO(
         @NotBlank
         String nome
 ) {
-        public DepoimentosDTO(Depoimentos depoimentos){
+        public DepoimentosCadastrarDTO(Depoimentos depoimentos){
                 this(depoimentos.getFotoUrl(), depoimentos.getDepoimento(), depoimentos.getNome());
         }
 }
