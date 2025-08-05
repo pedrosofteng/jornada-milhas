@@ -117,8 +117,24 @@ class DestinoControllerTest {
 
     @Test
     @DisplayName("Deveria retornar o código http 200 quando chamado a requisição get.")
-    void mostrarDestinoEspecifico_cenario1() throws Exception  {
+    void mostrarDestinoEspecificoPorNome_cenario1() throws Exception  {
         var response = mvc.perform(get("/destinos?nome=Paris")).andReturn().getResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("Deveria retornar o código http 200 quando chamado a requisição get.")
+    void verDestinoEspecificoPorId_cenario1() throws Exception {
+        var destinoDetalhesDTO = new DestinoDetalhesDTO(
+                "url.com",
+                "url.com2",
+                "meta",
+                "textoDescritivo",
+                "paris",
+                24.0);
+        when(destinoService.mostrarDestinoEspecificoPorId(1L)).thenReturn(ResponseEntity.ok(destinoDetalhesDTO));
+        var response = mvc.perform(get("/destinos/1")).andReturn().getResponse();
+
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 }

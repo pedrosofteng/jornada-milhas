@@ -26,6 +26,11 @@ public class DestinoController {
         return service.mostrarDestinos(paginacao);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> verDestinoEspecificoPorId(@PathVariable Long id) {
+        return service.mostrarDestinoEspecificoPorId(id);
+    }
+
     @PostMapping
     @Transactional
     public ResponseEntity<?> postarDestino(
@@ -49,11 +54,11 @@ public class DestinoController {
     }
 
     @GetMapping("?nome={nome}")
-    public ResponseEntity<?> mostrarDestinoEspecifico(
+    public ResponseEntity<?> mostrarDestinoEspecificoPorNome(
             @PathVariable
             String nome,
             @PageableDefault(size = 10, page = 0, sort = {"nome"})
             Pageable paginacao) {
-        return service.buscarDestinoEspecifico(nome, paginacao);
+        return service.buscarDestinoEspecificoPorNome(nome, paginacao);
     }
 }

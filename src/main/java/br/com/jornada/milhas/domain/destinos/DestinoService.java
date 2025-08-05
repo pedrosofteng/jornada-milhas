@@ -42,11 +42,16 @@ public class DestinoService {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<?> buscarDestinoEspecifico(String nome, Pageable paginacao) {
+    public ResponseEntity<?> buscarDestinoEspecificoPorNome(String nome, Pageable paginacao) {
         Page<DestinoDetalhesDTO> destinos = repository
                 .findAllByAtivoTrueAndNomeIgnoreCase(paginacao, nome)
                 .map(DestinoDetalhesDTO::new);
 
         return ResponseEntity.ok(destinos);
+    }
+
+    public ResponseEntity<DestinoDetalhesDTO> mostrarDestinoEspecificoPorId(Long id) {
+        var destino = repository.findById(id).get();
+        return ResponseEntity.ok(new DestinoDetalhesDTO(destino));
     }
 }
